@@ -4,3 +4,5 @@ RayTracer/result
 *.sln
 Debug/
 RayTracer/Debug/
+*.vcxproj
+*.vcxproj.user
