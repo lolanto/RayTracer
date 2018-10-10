@@ -1,0 +1,6 @@
+/.vs
+RayTracer/.vs
+RayTracer/result
+*.sln
+Debug/
+RayTracer/Debug/
