@@ -102,6 +102,6 @@ color3 Image::get_color(const int row, const int column) const {
 
 	if (index < pixels_size)
 		return (pixels[index]);
-	else
-		return (red);    // useful for debugging 
+	//else
+	//	return (red);    // useful for debugging 
 }

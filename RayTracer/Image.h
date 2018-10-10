@@ -11,7 +11,7 @@ public:
 	~Image();
 	void read_ppm_file(const char* filename);
 	int get_hres();
-	int get_hres();
+	int get_vres();
 	color3 get_color(const int row, const int col) const;
 private:
 	int hres;

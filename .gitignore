@@ -6,3 +6,5 @@ Debug/
 RayTracer/Debug/
 *.vcxproj
 *.vcxproj.user
+*.vcxproj.filters
+result/

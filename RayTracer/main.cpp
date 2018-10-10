@@ -37,13 +37,18 @@ color3 color(const ray& r, hitable* world, int depth) {
 
 int main()
 {
-	int nx = 1080;
-	int ny = 540;
+	int nx = 10;
+	int ny = 10;
 	int ns = 100;
 	uniform_real_distribution<float> randomFloats(0.0, 1.0);
 	default_random_engine generator;
 
-	ofstream outfile(".\\result\\SeveralMaterials.ppm", ios_base::out);
+	ofstream outfile(".\\result\\SeveralMaterials.ppm");
+	if (!outfile.is_open()) {
+		cout << (outfile.rdstate() & std::ofstream::failbit) << endl;
+		system("pause");
+		return 0;
+	}
 	outfile << "P3\n" << nx << " " << ny << "\n255\n";
 
 	//std::cout << "P3\n" << nx << " " << ny << "\n255\n";
@@ -79,5 +84,5 @@ int main()
 			//std::cout << ir << " " << ig << " " << ib << "\n";
 		}
 	}
-
+	outfile.close();
 }
