@@ -1,12 +1,15 @@
 #ifndef METAL_H
 #define METAL_H
-#include "material.h"
+#include "Material.h"
 
-class metal :public material {
+class Metal :public Material {
 public:
-	metal(const vec3& a):albedo(a) {}
-	bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const;
-	vec3 albedo;
+	Metal(const Vec3& a):albedo(a) {}
+	Metal(const Vec3& a, float f) :albedo(a) { if (f < 1) fuzz = f; else fuzz = 1; }
+	bool scatter(const Ray& r_in, const Hit_record& rec, Vec3& attenuation, Ray& scattered) const;
+	Vec3 albedo;
+	float fuzz;
 };
+Vec3 reflect(const Vec3& v, const Vec3& n);
 #endif // !METAL_H
 

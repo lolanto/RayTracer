@@ -1,10 +1,10 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
-#include "hitable.h"
+#include "Hitable.h"
 
-class material {
+class Material {
 public:
-	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray&scattered) const = 0;
+	virtual bool scatter(const Ray& r_in, const Hit_record& rec, Vec3& attenuation, Ray&scattered) const = 0;
 };
 #endif // !MATERIAL_H
 

@@ -1,6 +1,6 @@
 #ifndef COLOR_H
 #define COLOR_H
-#include "vec3.h"
-typedef vec3 color3;
+#include "Vec3.h"
+typedef Vec3 Color3;
 #endif // !COLOR_H
 

@@ -1,17 +1,17 @@
 #ifndef HITABLELIST_H
 #define HITABLELIST_H
-#include "hitable.h"
+#include "Hitable.h"
 
-class hitable_list :public hitable {
+class Hitable_list :public Hitable {
 public:
-	hitable_list(){}
-	hitable_list(hitable **l, int n) {
+	Hitable_list(){}
+	Hitable_list(Hitable **l, int n) {
 		list = l;
 		list_size = n;
 	}
-	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec)const;
+	virtual bool hit(const Ray& r, float t_min, float t_max, Hit_record& rec)const;
 
-	hitable **list;
+	Hitable **list;
 	int	list_size;
 
 };

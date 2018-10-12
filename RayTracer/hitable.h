@@ -1,20 +1,20 @@
-#ifndef HETABLE_H
-#define HETABLE_H
+#ifndef HITABLE_H
+#define HITABLE_H
 
-#include "ray.h"
-class material;
+#include "Ray.h"
+class Material;
 
-struct hit_record
+struct Hit_record
 {
 	float t;
-	vec3 p;
-	vec3 normal;
-	material* mat_ptr;
+	Vec3 p;
+	Vec3 normal;
+	Material* mat_ptr;
 };
 
-class hitable {
+class Hitable {
 public:
-	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
+	virtual bool hit(const Ray& r, float t_min, float t_max, Hit_record& rec) const = 0;
 };
-#endif // !HETABLE_H
+#endif // !HITABLE_H
 

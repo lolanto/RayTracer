@@ -1,6 +1,6 @@
 #ifndef IMAGE_H
 #define IMAGE_H
-#include "color.h"
+#include "Color.h"
 #include <vector>
 class Image {
 public:
@@ -12,11 +12,11 @@ public:
 	void read_ppm_file(const char* filename);
 	int get_hres();
 	int get_vres();
-	color3 get_color(const int row, const int col) const;
+	Color3 get_color(const int row, const int col) const;
 private:
 	int hres;
 	int vres;
-	std::vector<color3> pixels;
+	std::vector<Color3> pixels;
 };
 
 inline int

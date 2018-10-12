@@ -1,16 +1,16 @@
 #ifndef SPHERE_H
 #define SPHERE_H
-#include "hitable.h"
-#include "material.h"
+#include "Hitable.h"
+#include "Material.h"
 
-class sphere :public hitable {
+class Sphere :public Hitable {
 public:
-	sphere() {}
-	sphere(vec3 cen, float r, material *m):center(cen),radius(r),ma(m){}
-	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
-	vec3 center;
+	Sphere() {}
+	Sphere(Vec3 cen, float r, Material *m):center(cen),radius(r),ma(m){}
+	bool hit(const Ray& r, float t_min, float t_max, Hit_record& rec) const;
+	Vec3 center;
 	float radius;
-	material *ma;
+	Material *ma;
 };
 
 #endif // !SPHERE_H

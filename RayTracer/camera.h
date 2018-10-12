@@ -1,24 +1,36 @@
-#ifndef CAMERA_H  
-#define CAMERA_H  
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include "ray.h"  
-
-class camera
-{
+#include "Ray.h"
+#define PI 3.14159265358979323846
+class Camera{
 public:
-	camera() {
-		lower_left_corner = vec3(-2.0, -1.0, -1.0);
-		horizontal = vec3(4.0, 0.0, 0.0);
-		vertical = vec3(0.0, 2.0, 0.0);
-		origin = vec3(0.0, 0.0, 0.0);
+	Camera(Vec3 vpos, Vec3 lookat, Vec3 vup, float vfov, float aspect) { // vfov is top to bottom in degrees
+		Vec3 u, v, w;
+		float theta = vfov * PI / 180;
+		float half_height = tan(theta / 2);
+		float half_width = aspect * half_height;
+		origin = vpos;
+		w = unit_vector(vpos - lookat);
+		u = unit_vector(cross(vup, w));
+		v = cross(w, u);
+		lower_left_corner = origin - half_width * u - half_height * v - w;
+		horizontal = 2 * half_width*u;
+		vertical = 2 * half_height*v;
 	}
-	ray get_ray(float u, float v) { return ray(origin, lower_left_corner + u*horizontal + v*vertical); }
 
-	vec3 lower_left_corner;
-	vec3 horizontal;
-	vec3 vertical;
-	vec3 origin;
+	Ray get_Ray(float s, float t) { return Ray(origin, lower_left_corner + s * horizontal + t * vertical - origin); }
+	
+	Vec3 lower_left_corner;
 
+	Vec3 horizontal;
+
+	Vec3 vertical;
+
+	Vec3 origin;
 };
 
-#endif // CAMERA_H  
+
+
+#endif // CAMERA_H
+

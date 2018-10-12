@@ -87,7 +87,7 @@ void Image::read_ppm_file(const char* filename) {
 			float g = green * inv_max_value;
 			float b = blue  * inv_max_value;
 
-			pixels.push_back(color3(r, g, b));
+			pixels.push_back(Color3(r, g, b));
 		}
 	}
 
@@ -96,12 +96,12 @@ void Image::read_ppm_file(const char* filename) {
 	std::cout << "finished reading PPM file" << std::endl;
 }
 
-color3 Image::get_color(const int row, const int column) const {
+Color3 Image::get_color(const int row, const int column) const {
 	int index = column + hres * (vres - row - 1);
 	int pixels_size = pixels.size();
 
 	if (index < pixels_size)
 		return (pixels[index]);
-	//else
-	//	return (red);    // useful for debugging 
+	else
+		return Color3(1.0, 0.0, 0.0);    // useful for debugging 
 }

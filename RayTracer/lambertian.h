@@ -1,12 +1,15 @@
 #ifndef LAMBERTIAN_H
 #define LAMBERTIAN_H
-#include "material.h"
+#include "Material.h"
 
-class lambertian :public material {
+class Lambertian :public Material {
 public:
-	lambertian(const vec3& a):albedo(a) {}
-	bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered)const;
-	vec3 albedo;
+	Lambertian(const Vec3& a):albedo(a) {}
+	bool scatter(const Ray& r_in, const Hit_record& rec, Vec3& attenuation, Ray& scattered)const;
+	Vec3 albedo;
 };
+
+Vec3 random_in_unit_Sphere();
+
 #endif // !LAMBERTIAN_H
 
