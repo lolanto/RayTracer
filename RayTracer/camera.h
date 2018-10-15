@@ -19,14 +19,11 @@ public:
 		vertical = 2 * half_height*v;
 	}
 
-	Ray get_Ray(float s, float t) { return Ray(origin, lower_left_corner + s * horizontal + t * vertical - origin); }
+	Ray get_Ray(float s, float t) { return Ray(origin, lower_left_corner + s * horizontal + t * vertical - origin); }	
 	
 	Vec3 lower_left_corner;
-
 	Vec3 horizontal;
-
 	Vec3 vertical;
-
 	Vec3 origin;
 };
 

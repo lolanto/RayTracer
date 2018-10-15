@@ -10,6 +10,7 @@ public:
 		list_size = n;
 	}
 	virtual bool hit(const Ray& r, float t_min, float t_max, Hit_record& rec)const;
+	virtual std::vector<Vec3> getAttribute() const;
 
 	Hitable **list;
 	int	list_size;

@@ -8,6 +8,9 @@
 #include "Metal.h"
 #include "..\Dielectric.h"
 #include "Color.h"
+#include "Image.h"
+#include "..\SphericalMap.h"
+#include "..\RectangularMap.h"
 #include <cfloat>
 #include <limits>
 #include <random>
@@ -22,6 +25,9 @@ Color3 color(const Ray& r, Hitable* world, int depth) {
 		if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
 			return attenuation*color(scattered, world, depth + 1);
 		}
+		//if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
+		//	return attenuation;
+		//}
 		else
 		{
 			return Color3(0, 0, 0);
@@ -35,26 +41,19 @@ Color3 color(const Ray& r, Hitable* world, int depth) {
 	}
 }
 
-
+/*
 Hitable *random_scene() {
 	int n = 500;
 	Hitable **list = new Hitable *[n + 1];
-	/*定义一个包含n+1个元素的数组，数组的每个元素是指向Hitable对象的指针。然后将数组的指针赋值给list。所以，list是指针的指针。*/
 	list[0] = new Sphere(Vec3(0, -1000, 0), 1000, new Lambertian(Vec3(0.5, 0.5, 0.5)));
-	/*先创建一个中心在（0，-1000，0）半径为1000的超大漫射球，将其指针保存在list的第一个元素中。*/
 	int i = 1;
 	for (int a = -11; a < 11; a++) {
 		for (int b = -11; b < 11; b++) {
-			/*两个for循环中会产生（11+11）*(11+11)=484个随机小球*/
 			float choose_mat = (rand() % (100) / (float)(100));
-			/*产生一个（0，1）的随机数，作为设置小球材料的阀值*/
 			Vec3 center(a + 0.9*(rand() % (100) / (float)(100)), 0.2,
 				b + 0.9*(rand() % (100) / (float)(100)));
-			/*” a+0.9*(rand()%(100)/(float)(100))”配合[-11,11]产生（-11，11）之间的随机数，而不是[-11,11)之间的22个整数。使得球心的x,z坐标是（-11，11）之间的随机数*/
 			if ((center - Vec3(4, 0.2, 0)).length() > 0.9) {
-				/*避免小球的位置和最前面的大球的位置太靠近*/
-				if (choose_mat < 0.8) {     //diffuse
-/*材料阀值小于0.8，则设置为漫反射球，漫反射球的衰减系数x,y,z都是（0，1）之间的随机数的平方*/
+				if (choose_mat < 0.8) {     
 					list[i++] = new Sphere(center, 0.2,
 						new Lambertian(Vec3(
 						(rand() % (100) / (float)(100))*(rand() % (100) / (float)(100)),
@@ -62,7 +61,6 @@ Hitable *random_scene() {
 							(rand() % (100) / (float)(100))*(rand() % (100) / (float)(100)))));
 				}
 				else if (choose_mat < 0.95) {
-					/*材料阀值大于等于0.8小于0.95，则设置为镜面反射球，镜面反射球的衰减系数x,y,z及模糊系数都是（0，1）之间的随机数加一再除以2*/
 					list[i++] = new Sphere(center, 0.2,
 						new Metal(Vec3(0.5*(1 + (rand() % (100) / (float)(100))),
 							0.5*(1 + (rand() % (100) / (float)(100))),
@@ -70,7 +68,6 @@ Hitable *random_scene() {
 							0.5*(1 + (rand() % (100) / (float)(100)))));
 				}
 				else {
-					/*材料阀值大于等于0.95，则设置为介质球*/
 					list[i++] = new Sphere(center, 0.2, new Dielectric(1.5));
 				}
 			}
@@ -80,9 +77,10 @@ Hitable *random_scene() {
 	list[i++] = new Sphere(Vec3(0, 1, 0), 1.0, new Dielectric(1.5));
 	list[i++] = new Sphere(Vec3(-4, 1, 0), 1.0, new Lambertian(Vec3(0.4, 0.2, 0.1)));
 	list[i++] = new Sphere(Vec3(4, 1, 0), 1.0, new Metal(Vec3(0.7, 0.6, 0.5), 0.0));
-	/*定义三个大球*/
+
 	return new Hitable_list(list, i);
 }
+*/
 
 
 int main()
@@ -93,7 +91,7 @@ int main()
 	uniform_real_distribution<float> randomFloats(0.0, 1.0);
 	default_random_engine generator;
 
-	ofstream outfile(".\\result\\Rectangle.ppm");
+	ofstream outfile(".\\result\\RecTexture.ppm");
 	if (!outfile.is_open()) {
 		cout << (outfile.rdstate() & std::ofstream::failbit) << endl;
 		system("pause");
@@ -111,11 +109,20 @@ int main()
 	//Hitable* world = new Hitable_list(list, 4);
 	//Hitable* world = random_scene();
 	Hitable* list[1];
-	list[0] = new Rectangle(Vec3(0, 0, 0), Vec3(2, 0, 0), Vec3(0, 2, 0), Vec3(0, 0, -1), new Lambertian(Vec3(0.8, 0.3, 0.3)));
+	//list[0] = new Rectangle(Vec3(0, 0, 0), Vec3(2, 0, 0), Vec3(0, 2, 0), Vec3(0, 0, -1), new Lambertian(Vec3(0.8, 0.3, 0.3)));
+	Image* image_ptr = new Image;
+	image_ptr->read_ppm_file(".\\Textures\\color.ppm");
+	//SphericalMap* map_ptr = new SphericalMap;
+	RectangularMap* map_ptr = new RectangularMap;
+	ImageTexture* texture_ptr = new ImageTexture;
+	texture_ptr->set_image(image_ptr);
+	texture_ptr->set_mapping(map_ptr);
+	//list[0] = new Sphere(Vec3(0, 1, -1), 0.5, new Lambertian(Vec3(0.8, 0.3, 0.3)), texture_ptr);
+	list[0] = new Rectangle(Vec3(0, 0, 0), Vec3(2, 0, 0), Vec3(0, 2, 0), Vec3(0, 0, -1), new Lambertian(Vec3(0.8, 0.3, 0.3)), texture_ptr);
 	Hitable* world = new Hitable_list(list, 1);
 	//Camera cam(Vec3(-2, 2, 1), Vec3(0, -1, 0), Vec3(0, 1, 0), 90, float(nx) / float(ny));
 	//Camera cam(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0), 20, float(nx) / float(ny));
-	Camera cam(Vec3(1, 1, 1), Vec3(1, 1, -1), Vec3(0, 1, 0), 90, float(nx) / float(ny));
+	Camera cam(Vec3(1, 1, 1), Vec3(1, 1, -1), Vec3(0, 1, 0), 60, float(nx) / float(ny));
 
 	for (int j = ny - 1; j >= 0; j--)
 	{

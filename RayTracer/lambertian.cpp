@@ -16,6 +16,7 @@ bool Lambertian::scatter(const Ray& r_in, const Hit_record& rec, Vec3& attenuati
 	/*这里具体实现Lambertian::scatter()。做两件事情：获取漫反射的反射光线；获取材质的衰减系数。 */
 	Vec3 target = rec.p + rec.normal + random_in_unit_Sphere();
 	scattered = Ray(rec.p, target - rec.p);
-	attenuation = albedo;
+	//attenuation = albedo;
+	attenuation = rec.tex_ptr->get_color(rec);
 	return true;
 }

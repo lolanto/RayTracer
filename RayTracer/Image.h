@@ -8,7 +8,7 @@ public:
 	Image(int h, int v);
 	Image(const Image& image);
 	Image& operator= (const Image& image);
-	~Image();
+	~Image() {}
 	void read_ppm_file(const char* filename);
 	int get_hres();
 	int get_vres();
@@ -19,15 +19,12 @@ private:
 	std::vector<Color3> pixels;
 };
 
-inline int
-Image::get_hres(void) {
+inline 
+int Image::get_hres(void) {
 	return (hres);
 }
-
-
-
-inline int
-Image::get_vres(void) {
+inline 
+int Image::get_vres(void) {
 	return (vres);
 }
 
